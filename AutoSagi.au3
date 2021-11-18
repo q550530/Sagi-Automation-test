@@ -18,6 +18,8 @@ $Button4 = GUICtrlCreateButton("Test", 32, 370, 113, 49)
 $Button8 = GUICtrlCreateButton("Coordinate maker", 490, 300, 113, 49)
 $Button9 = GUICtrlCreateButton("Close Sagi", 490, 370, 113, 49)
 
+$Input1 = GUICtrlCreateInput("Sagittarius_8.6.0.0", 312, 32, 100, 30)
+
 GUISetState(@SW_SHOW)
 
 Local $result
@@ -97,14 +99,7 @@ While 1
 
 		 Case $Button4 ;; function test button
 
-			$aPos=WinGetPos("Sagittarius - Engineering Mode")
-			$xScreen=$aPos[0]+838
-			$yScreen=$aPos[1]+93
-			$iColor = PixelGetColor($xScreen, $yScreen)
-			If Hex($iColor,6) ="FF0000" Then
-			   $ac = WinGetHandle("Sagittarius - Engineering Mode]")
-			  _ScreenCapture_CaptureWnd("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\Devlope\Sagi-Automation test\Test.jpg",$ac)
-			EndIf
+			Run("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\exe\Sagittarius_8.6.0.0(20210906).exe")
 
 		 Case $Button8
 
@@ -182,6 +177,14 @@ Func ConnextSagi()
    ;Run("C:\Program Files (x86)\STAr\Sagittarius\Components\SagiUI.exe")
 			Run(@ComSpec & " /c " & '"D:\Start.bat"', "", @SW_HIDE)
 			   ;Update note message
+
+
+
+
+			   If WinExists("Sagittarius - Assist") Then
+				  WinWaitActive("Sagittarius - Assist")
+				   ControlClick ("Sagittarius - Assist", "No", "[CLASS:Button;INSTANCE:2]")
+			   EndIf
 			;shellExecute("C:\Program Files (x86)\STAr\Sagittarius\Components\SagiUI.exe")
 
 			   ;WinWaitActive("Sagittarius - Assist")
