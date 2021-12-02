@@ -8,17 +8,25 @@
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <ScreenCapture.au3>
+AutoItSetOption ("TrayIconDebug", 1);0-off
+Local $Form1 = GUICreate("RFDS Automation Test", 615, 437, 192, 124)
+Local $Button1 = GUICtrlCreateButton("Sagi Logain", 32, 32, 113, 49)
+Local $Button2 = GUICtrlCreateButton("Leo Logain", 32, 104, 113, 49)
+Local $Button3 = GUICtrlCreateButton("Auto burn in", 32, 174, 113, 49)
+Local $Button5 = GUICtrlCreateButton("Eng'r Sainty test", 32, 244, 113, 49)
 
-$Form1 = GUICreate("Form1", 615, 437, 192, 124)
-$Button1 = GUICtrlCreateButton("Sagi Logain", 32, 32, 113, 49)
-$Button2 = GUICtrlCreateButton("Leo Logain", 32, 104, 113, 49)
-$Button3 = GUICtrlCreateButton("Auto burn in", 32, 174, 113, 49)
-$Button4 = GUICtrlCreateButton("Test", 32, 370, 113, 49)
 
-$Button8 = GUICtrlCreateButton("Coordinate maker", 490, 300, 113, 49)
-$Button9 = GUICtrlCreateButton("Close Sagi", 490, 370, 113, 49)
 
-$Input1 = GUICtrlCreateInput("Sagittarius_8.6.0.0", 312, 32, 100, 30)
+Local $Button4 = GUICtrlCreateButton("Test", 32, 370, 113, 49)
+
+
+Local $Button8 = GUICtrlCreateButton("Coordinate maker", 490, 300, 113, 49)
+Local $Button9 = GUICtrlCreateButton("Close Sagi", 490, 370, 113, 49)
+
+;;install
+Local $Label_1 = GUICtrlCreateLabel("Installer name", 232, 32, 100, 20)
+Local $Input1 = GUICtrlCreateInput("Sagittarius_8.6.0.0", 312, 32, 130, 30)
+Local $Button6= GUICtrlCreateButton("Lazy install", 490, 32, 113, 49)
 
 GUISetState(@SW_SHOW)
 
@@ -30,10 +38,10 @@ While 1
 		Case $GUI_EVENT_CLOSE
 			Exit
 
-		 Case $Button1
+		 Case $Button1  ;;Login Sagi
 			ConnextSagi()
 
-		 Case $Button2
+		 Case $Button2  ;Login Leo
 			   Run("C:\Program Files (x86)\teCat\Leo\Components\LeoUI.exe")
 			   ;Login
 			   WinWaitActive("Leo Login")
@@ -45,8 +53,7 @@ While 1
 			   ControlClick ("Leo Login", "OK", "[CLASS:Button;INSTANCE:1]")
 
 
-
-		 Case $Button3
+		 Case $Button3  ;Start Ebg
 			Initialize()
 			EnggStart()
 			FocusWin("Sagittarius - Engineering Mode")
@@ -93,15 +100,45 @@ While 1
 				  _ScreenCapture_CaptureWnd("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\Devlope\Sagi-Automation test\Test.jpg", $hwd,0,0,1920,1080,False)
 				  ExitLoop
 			   EndIf
-			   Sleep(3000)
+			   Sleep(15000)
 			Next
 
 
 		 Case $Button4 ;; function test button
+			Local $inputValue
+			$inputValue = GUICtrlRead($Input1)
+			Run("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\exe\"& $inputValue &".exe")
 
-			Run("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\exe\Sagittarius_8.6.0.0(20210906).exe")
 
-		 Case $Button8
+
+		 Case $Button5 ;; Sainty test Eng'r mode
+		 Run(@ComSpec & " /c " & '"C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\Devlope\Sagi-Automation test\Enggmode.exe"', "", @SW_HIDE)
+
+
+		 Case $Button6 ;; lazy install
+			Local $inputValue
+			$inputValue = GUICtrlRead($Input1)
+			Run("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\exe\"& $inputValue &".exe")
+			FocusWin("Sagittarius Installation")
+			ControlClick("Sagittarius Installation", "Yes", "[CLASS:Button; INSTANCE:1]")
+			FocusWin("Sagittarius uninstallation")
+			ControlClick("Sagittarius uninstallation", "Yes", "[CLASS:Button; INSTANCE:1]")
+			FocusWin("Remove shared file")
+			ControlClick("Remove shared file", "Yes to all", "[CLASS:Button; INSTANCE:1]")
+			Sleep(5000)
+			FocusWin("Sagittarius uninstallation")
+			ControlClick("Sagittarius uninstallation", "&Close", "[CLASS:Button; INSTANCE:1]")
+			WinWaitActive("Sagittarius Installation")
+			Send("!n")
+			Sleep(2000)
+			ControlClick("Sagittarius Installation","", "[CLASS:Button; INSTANCE:5]")
+			Send("!n")
+			Send("!i")
+			Sleep(110000)
+			WinWaitActive("Sagittarius Installation")
+			clickOffset("Sagittarius Installation","425","460")
+
+		 Case $Button8 ;Windows coordinate check
 
 			$Pos=MouseGetPos()
 			$var = PixelGetColor( $Pos[0] , $Pos[1])
@@ -181,9 +218,9 @@ Func ConnextSagi()
 
 
 
-			   If WinExists("Sagittarius - Assist") Then
+			   If WinExists("Sagittarius - Assist","") Then
 				  WinWaitActive("Sagittarius - Assist")
-				   ControlClick ("Sagittarius - Assist", "No", "[CLASS:Button;INSTANCE:2]")
+				  ControlClick ("Sagittarius - Assist", "No", "[CLASS:Button;INSTANCE:2]")
 			   EndIf
 			;shellExecute("C:\Program Files (x86)\STAr\Sagittarius\Components\SagiUI.exe")
 
