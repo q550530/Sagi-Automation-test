@@ -67,7 +67,7 @@ EndFunc
 ;Start Sagi
 Func ConnextSagi()
    ;Run("C:\Program Files (x86)\STAr\Sagittarius\Components\SagiUI.exe")
-			Run(@ComSpec & " /c " & '"D:\Start.bat"', "", @SW_HIDE)
+			Run(@ComSpec & " /c " & '"C:\AutoTool\Start.bat"', "", @SW_HIDE)
 			   ;Update note message
 
 

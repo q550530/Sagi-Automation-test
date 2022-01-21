@@ -91,53 +91,82 @@ While 1
 			clickhold("Sagittarius - Prober Control","50","210","475","630")
 			ControlClick("Sagittarius - Engineering Mode", "Test", "[CLASS:Button;INSTANCE:10]")
 
-			For $g=0 To 1000 Step 1
-			   $aPos=WinGetPos("Sagittarius - Engineering Mode")
-			   $xScreen=$aPos[0]+838
-			   $yScreen=$aPos[1]+93
-			   $iColor = PixelGetColor($xScreen, $yScreen)
+
+			$aPos=WinGetPos("Sagittarius - Engineering Mode")
+			$xScreen=$aPos[0]+838
+			$yScreen=$aPos[1]+93
+			$iColor = PixelGetColor("1918", "100")
+			Dim $OutLoop=0
+
+			While Hex($iColor,6) ="008000"
+			   Sleep(200)
 			   If Hex($iColor,6) ="FF0000" Then
-				  $hwd=WinExists("Sagittarius - Engineering Mode")
-				  _ScreenCapture_CaptureWnd("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\Devlope\Sagi-Automation test\Test.jpg", $hwd,0,0,1920,1080,False)
-				  ExitLoop
+				  ExitLoop(2)
 			   EndIf
-			   Sleep(15000)
-			Next
+			WEnd
+
+			$hwd=WinExists("Sagittarius - Engineering Mode")
+			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\ENGG.jpg", "Sagittarius - Engineering Mode",0,0,1920,1080)
+			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\PrbCon.jpg", "Sagittarius - Prober Control",0,0,1920,1080)
+
+
+			 $hwd=WinExists("Sagittarius - Engineering Mode")
+			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\Test.jpg", $hwd,0,0,1920,1080,False)
 
 
 		 Case $Button4 ;; function test button
-			Local $inputValue
-			$inputValue = GUICtrlRead($Input1)
-			Run("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\exe\"& $inputValue &".exe")
+			$aPos=WinGetPos("Sagittarius - Engineering Mode")
+			$xScreen=$aPos[0]+838
+			$yScreen=$aPos[1]+93
+			$iColor = PixelGetColor("1918", "100")
+			Dim $OutLoop=0
 
+			While Hex($iColor,6) ="008000"
+			   Sleep(200)
+			   If Hex($iColor,6) ="FF0000" Then
+				  ExitLoop(2)
+			   EndIf
+			WEnd
+
+			$hwd=WinExists("Sagittarius - Engineering Mode")
+			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\ENGG.jpg", "Sagittarius - Engineering Mode",0,0,1920,1080)
+			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\PrbCon.jpg", "Sagittarius - Prober Control",0,0,1920,1080)
 
 
 		 Case $Button5 ;; Sainty test Eng'r mode
-		 Run(@ComSpec & " /c " & '"C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\Devlope\Sagi-Automation test\Enggmode.exe"', "", @SW_HIDE)
+		 Run(@ComSpec & " /c " & '"C:\AutoTool\Enggmode.exe"', "", @SW_HIDE)
 
 
 		 Case $Button6 ;; lazy install
-			Local $inputValue
+			;Local $Exis=FileExists("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\exe\"& $inputValue &".exe")
 			$inputValue = GUICtrlRead($Input1)
-			Run("C:\Users\hsiao_tyrael\Desktop\RFDS_Tyrael\exe\"& $inputValue &".exe")
-			FocusWin("Sagittarius Installation")
-			ControlClick("Sagittarius Installation", "Yes", "[CLASS:Button; INSTANCE:1]")
-			FocusWin("Sagittarius uninstallation")
-			ControlClick("Sagittarius uninstallation", "Yes", "[CLASS:Button; INSTANCE:1]")
-			FocusWin("Remove shared file")
-			ControlClick("Remove shared file", "Yes to all", "[CLASS:Button; INSTANCE:1]")
-			Sleep(5000)
-			FocusWin("Sagittarius uninstallation")
-			ControlClick("Sagittarius uninstallation", "&Close", "[CLASS:Button; INSTANCE:1]")
-			WinWaitActive("Sagittarius Installation")
-			Send("!n")
-			Sleep(2000)
-			ControlClick("Sagittarius Installation","", "[CLASS:Button; INSTANCE:5]")
-			Send("!n")
-			Send("!i")
-			Sleep(110000)
-			WinWaitActive("Sagittarius Installation")
-			clickOffset("Sagittarius Installation","425","460")
+			If FileExists("C:\AutoTool\Installer\"& $inputValue &".exe") Then
+			   SagiKiller("SagiUI.exe")
+			   Sleep(1000)
+			   Local $inputValue
+			   Run("C:\AutoTool\Installer\"& $inputValue &".exe")
+			   FocusWin("Sagittarius Installation")
+			   ControlClick("Sagittarius Installation", "Yes", "[CLASS:Button; INSTANCE:1]")
+			   FocusWin("Sagittarius uninstallation")
+			   ControlClick("Sagittarius uninstallation", "Yes", "[CLASS:Button; INSTANCE:1]")
+			   FocusWin("Remove shared file")
+			   ControlClick("Remove shared file", "Yes to all", "[CLASS:Button; INSTANCE:1]")
+			   Sleep(4000)
+			   FocusWin("Sagittarius uninstallation")
+			   ControlClick("Sagittarius uninstallation", "&Close", "[CLASS:Button; INSTANCE:1]")
+			   WinWaitActive("Sagittarius Installation")
+			   Send("!n")
+			   Sleep(2000)
+			   ControlClick("Sagittarius Installation","", "[CLASS:Button; INSTANCE:5]")
+			   Send("!n")
+			   Send("!i")
+			   Sleep(90000)
+			   WinWaitActive("Sagittarius Installation")
+			   clickOffset("Sagittarius Installation","425","460")
+			Else
+			   MsgBox($MB_SYSTEMMODAL, "Warrning", "The file doesn't exist." )
+			EndIf
+
 
 		 Case $Button8 ;Windows coordinate check
 
