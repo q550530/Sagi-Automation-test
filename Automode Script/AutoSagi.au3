@@ -92,45 +92,44 @@ While 1
 			ControlClick("Sagittarius - Engineering Mode", "Test", "[CLASS:Button;INSTANCE:10]")
 
 
+
 			$aPos=WinGetPos("Sagittarius - Engineering Mode")
 			$xScreen=$aPos[0]+838
 			$yScreen=$aPos[1]+93
 			$iColor = PixelGetColor("1918", "100")
-			Dim $OutLoop=0
+			Dim $Cooler
 
-			While Hex($iColor,6) ="008000"
+			Do
 			   Sleep(200)
-			   If Hex($iColor,6) ="FF0000" Then
-				  ExitLoop(2)
+			   $iColor = PixelGetColor("1918", "100")
+			   $Cooler=Hex($iColor,6)
+			   If $Cooler ="FF0000" Then
+				  _ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\Engg.jpg","Sagittarius - Engineering Mode",0,0,1920,1080,False)
+				  _ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\Prb.jpg","Sagittarius - Prober Control",0,0,1920,1080,False)
 			   EndIf
-			WEnd
-
-			$hwd=WinExists("Sagittarius - Engineering Mode")
-			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\ENGG.jpg", "Sagittarius - Engineering Mode",0,0,1920,1080)
-			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\PrbCon.jpg", "Sagittarius - Prober Control",0,0,1920,1080)
+			Until $Cooler ="FF0000"
 
 
-			 $hwd=WinExists("Sagittarius - Engineering Mode")
-			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\Test.jpg", $hwd,0,0,1920,1080,False)
 
 
 		 Case $Button4 ;; function test button
+
+
 			$aPos=WinGetPos("Sagittarius - Engineering Mode")
 			$xScreen=$aPos[0]+838
 			$yScreen=$aPos[1]+93
 			$iColor = PixelGetColor("1918", "100")
-			Dim $OutLoop=0
+			Dim $Cooler
 
-			While Hex($iColor,6) ="008000"
+			Do
 			   Sleep(200)
-			   If Hex($iColor,6) ="FF0000" Then
-				  ExitLoop(2)
+			   $iColor = PixelGetColor("1918", "100")
+			   $Cooler=Hex($iColor,6)
+			   If $Cooler ="FF0000" Then
+				  _ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\Engg.jpg","Sagittarius - Engineering Mode",0,0,1920,1080,False)
+				  _ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\Prb.jpg","Sagittarius - Prober Control",0,0,1920,1080,False)
 			   EndIf
-			WEnd
-
-			$hwd=WinExists("Sagittarius - Engineering Mode")
-			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\ENGG.jpg", "Sagittarius - Engineering Mode",0,0,1920,1080)
-			_ScreenCapture_CaptureWnd("C:\AutoTool\TestResult\PrbCon.jpg", "Sagittarius - Prober Control",0,0,1920,1080)
+			Until $Cooler ="FF0000"
 
 
 		 Case $Button5 ;; Sainty test Eng'r mode
