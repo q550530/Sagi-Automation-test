@@ -122,7 +122,7 @@ Func SagiKiller($sPID)
     If Not $sPID Then Return SetError(1, 0, 0)
 
     Return Run(@ComSpec & " /c taskkill /F /PID " & $sPID & " /T", @SystemDir, @SW_HIDE)
- EndFunc
+EndFunc
 
  Func _SetWindowPos($hWnd, $x, $y) ;??API???????
  Local $cX, $cY

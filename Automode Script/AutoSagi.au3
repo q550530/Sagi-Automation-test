@@ -177,6 +177,7 @@ While 1
 
 		 Case $Button9
 			SagiKiller("SagiUI.exe")
+			SagiKiller("LeoUI.exe")
 
 	EndSwitch
  WEnd
